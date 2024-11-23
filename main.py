@@ -13,7 +13,7 @@ def mostrar_menu():
     return input("Seleccione una opción: ")
 
 def main():
-    db = BaseDeDatos("MiBaseDeDatos")
+    db = BaseDeDatos()
 
     while True:
         opcion = mostrar_menu()
@@ -25,13 +25,14 @@ def main():
         
         elif opcion == "2":
             nombre_coleccion = input("Ingrese el nombre de la colección: ")
-            collection = db.obtener_coleccion(nombre_coleccion)
-            ruta_csv = input("Ingrese la ruta del archivo CSV: ")
-            collection.import_csv(nombre_coleccion, ruta_csv)
+            coleccion = db.obtener_coleccion(nombre_coleccion)
+            ruta_csv = input("Ingrese el nombre del archivo CSV: ")
+            file = 'datos_personales.csv'
+            coleccion.import_csv(file)
         
         elif opcion == "3":
             nombre_coleccion = input("Ingrese el nombre de la colección: ")
-            doc_id = input("Ingrese el ID del documento: ") #### aclarar que se un int sino no arroja resultados
+            doc_id = int (input("Ingrese el ID del documento: ")) #### aclarar que se un int sino no arroja resultados
             coleccion = db.obtener_coleccion(nombre_coleccion)
             if coleccion:
                 documento = coleccion.buscar_documento(doc_id)

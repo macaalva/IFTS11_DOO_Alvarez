@@ -1,4 +1,6 @@
-class Documento (object): 
+from clases.s2d import str2Doc
+
+class Documento (object):
 
     def __init__(self, id, contenido=None):
         self.id= id
@@ -12,20 +14,15 @@ class Documento (object):
 
     def __str__ (self):
         return f"Documento(id={self.id}, contenido={self.contenido})"
-""" 
-d= Documento (1, {'nombre': "Macarena"})
-if not d.obtener_valor('direccion'):
-    d.modificar_valor ('direccion', 'calle falsa 123')
-print(d.obtener_valor ('direccion'))
-print(d.obtener_valor ('nombre')) """
 
 class Coleccion (object):
     def __init__ (self, nombre):
         self.nombre= nombre
         self.documentos = {} #guarda los documentos que va creando, es un diccionario vacio, accede a cada diccionario por su ID
 
-    def añadir_documento (self,documento):
-        self.documentos[documento.id]= documento
+    def añadir_documento (self,id,documento):
+        self.documentos[id]= documento
+        print (f"Agregando doc {documento} en documentos.")
     
     def eliminar_documento (self, id_documento):
         if id_documento in self.documentos:
@@ -34,7 +31,20 @@ class Coleccion (object):
     def buscar_documento (self, id_documento):
         return self.documentos.get(id_documento, None)
     
-
+    def import_csv (self, ruta_csv):
+        archivo = open(ruta_csv, "r")
+        linea = archivo.readline()
+        s2d = str2Doc(linea)
+        linea = archivo.readline()
+        id= 1
+        while linea != "":
+            persona = s2d.convert(linea)
+            print(persona)
+            self.añadir_documento(id,persona)
+            linea = archivo.readline()
+            id= id+1
+        archivo.close()
+        
     
     def __str__(self):
         return f"Coleccion {self.nombre} con {len(self.documentos)} documentos."
@@ -42,8 +52,8 @@ class Coleccion (object):
 c= Coleccion ('Personas')
 p1= Documento(1, {'Nombre': 'Jose' , 'Apellido': 'Perez', 'Edad': 18, 'Email': 'joseperez@gmail.com', 'Telefono': 1568676768}) 
 p2= Documento(2, {'Nombre': 'Juana', 'Apellido': 'Perez', 'Edad': 18, 'Email': 'juanaperez@gmail.com', 'Telefono': 1568676769}) 
-c.añadir_documento(p1)
-c.añadir_documento(p2)
+c.añadir_documento(1,p1)
+c.añadir_documento(2,p2)
 personas= c.buscar_documento(2)
 print (personas.obtener_valor('Nombre'), personas.obtener_valor('Email'))
 c.eliminar_documento(2)

@@ -20,7 +20,6 @@ class str2Doc(object):
 s2d= str2Doc("nombre,email,telefono,edad")
 print (s2d.keys)
 d= s2d.convert("macarena,maca@gmail.com,13456789,29")
-d= Documento(0,d)
 print (d)
 
 
