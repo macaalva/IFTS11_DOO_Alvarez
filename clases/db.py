@@ -22,14 +22,14 @@ class Coleccion (object):
 
     def añadir_documento (self,id,documento):
         self.documentos[id]= documento
-        print (f"Agregando doc {documento} en documentos.")
+
+    def eliminar_documento (self, id):
+        if self.documentos.get(id, None) == None:
+            return
+        del self.documentos[id] #palabra reservada que elimina una key con su valor 
     
-    def eliminar_documento (self, id_documento):
-        if id_documento in self.documentos:
-            del self.documentos[id_documento] #palabra reservada que elimina una key con su valor 
-    
-    def buscar_documento (self, id_documento):
-        return self.documentos.get(id_documento, None)
+    def obtener_documento (self, id):
+        return self.documentos.get(id, None)
     
     def import_csv (self, ruta_csv):
         archivo = open(ruta_csv, "r")
@@ -43,25 +43,13 @@ class Coleccion (object):
             self.añadir_documento(id,persona)
             linea = archivo.readline()
             id= id+1
-        archivo.close()
-        
+        archivo.close()  
     
     def __str__(self):
         return f"Coleccion {self.nombre} con {len(self.documentos)} documentos."
 
-c= Coleccion ('Personas')
-p1= Documento(1, {'Nombre': 'Jose' , 'Apellido': 'Perez', 'Edad': 18, 'Email': 'joseperez@gmail.com', 'Telefono': 1568676768}) 
-p2= Documento(2, {'Nombre': 'Juana', 'Apellido': 'Perez', 'Edad': 18, 'Email': 'juanaperez@gmail.com', 'Telefono': 1568676769}) 
-c.añadir_documento(1,p1)
-c.añadir_documento(2,p2)
-personas= c.buscar_documento(2)
-print (personas.obtener_valor('Nombre'), personas.obtener_valor('Email'))
-c.eliminar_documento(2)
-personas= c.buscar_documento(2)
-if personas is not None:
-    print (personas.obtener_valor('Nombre'), personas.obtener_valor('Email'))
-else:
-    print ("la persona no existe mas") 
+    def listar_documentos(self):
+        return self.documentos
 
 class BaseDeDatos:
     def __init__ (self):

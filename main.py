@@ -35,7 +35,7 @@ def main():
             doc_id = int (input("Ingrese el ID del documento: ")) #### aclarar que se un int sino no arroja resultados
             coleccion = db.obtener_coleccion(nombre_coleccion)
             if coleccion:
-                documento = coleccion.buscar_documento(doc_id)
+                documento = coleccion.obtener_documento  (doc_id)
                 if documento:
                     print("Documento encontrado:")
                     print(documento)
@@ -49,17 +49,19 @@ def main():
             doc_id = input("Ingrese el ID del documento a eliminar: ")
             coleccion = db.obtener_coleccion(nombre_coleccion)
             if coleccion:
-                coleccion.eliminar_documento(doc_id)
+                coleccion.eliminar_documento (doc_id)
+                print ("El documento", doc_id, "fue eliminado de la coleccion", nombre_coleccion)
         
         elif opcion == "5":
             nombre_coleccion = input("Ingrese el nombre de la colección: ")
             coleccion = db.obtener_coleccion(nombre_coleccion)
             if coleccion:
-                documentos = coleccion.list_documents()
+                documentos = coleccion.listar_documentos()
+                print (documentos) #como hacer un metodo en db para listar los documentos de la coleccion, no lo toma con obtener documentos
                 if documentos:
                     print("\n--- Lista de Documentos ---")
-                    for doc in documentos:
-                        print(doc)
+                    for clave in documentos:
+                        print(documentos.get(clave))
                         print("-----------")
                 else:
                     print("No hay documentos en la colección.")
